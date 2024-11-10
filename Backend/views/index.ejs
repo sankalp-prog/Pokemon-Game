@@ -4,8 +4,29 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokemon</title>
+    <style>
+      #pokemon {
+        position: absolute;
+      }
+    </style>
   </head>
   <body>
-    <div>(<%= xCordinate %>, <%= yCordinate %>)</div>
+    <h1>Random Coordinates</h1>
+    <p>X: <span id="xCoordinate"></span></p>
+    <p>Y: <span id="yCoordinate"></span></p>
+    <img id="pokemon" src="https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png">
+    <script>
+      function updateCoordinates() {
+        fetch("/coordinates")
+          .then((response) => response.json())
+          .then((data) => {
+            document.getElementById("xCoordinate").innerText = data.xCoordinate
+            document.getElementById("yCoordinate").innerText = data.yCoordinate
+            document.getElementById("pokemon").style.top = `${data.yCoordinate}px`
+            document.getElementById("pokemon").style.left = `${data.xCoordinate}px`
+          });
+      }
+      setInterval(updateCoordinates, 1000);
+    </script>
   </body>
 </html>

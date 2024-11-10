@@ -3,10 +3,14 @@ const app = express();
 const port = 3000;
 
 app.get("/", (req, res) => {
-  let x = Math.floor(Math.random() * 10);
-  let y = Math.floor(Math.random() * 10);
+  res.render("index.ejs");
+});
 
-  res.render("index.ejs", {
+app.get("/coordinates", (req, res) => {
+  let x = Math.floor(Math.random() * 100);
+  let y = Math.floor(Math.random() * 100);
+
+  res.json({
     xCoordinate: x,
     yCoordinate: y,
   });
