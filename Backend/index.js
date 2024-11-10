@@ -27,7 +27,7 @@ app.get("/coordinates/:id", (req, res) => {
 
   console.log(dict);
 
-  res.send();
+  res.send(dict);
 });
 
 app.listen(port, () => {

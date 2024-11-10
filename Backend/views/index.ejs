@@ -26,51 +26,79 @@
       src="https://assets.pokemon.com/assets/cms2/img/pokedex/full//151.png"
     />
     <script>
-      const id = Math.floor(Math.random() * 100);
+      let id
+      if (localStorage.userId) {
+        id = localStorage.userId;
+      } else {
+        id = Math.floor(Math.random() * 100);
+        localStorage.userId = id;
+      }
       const avatar = document.getElementById("pokemon2");
       document.addEventListener("keydown", move);
 
       function updateCoordinates() {
-        // fetch("/coordinates")
-        //   .then((response) => response.json())
-        //   .then((data) => {
-        //     document.getElementById("xCoordinate").innerText = data.xCoordinate;
-        //     document.getElementById("yCoordinate").innerText = data.yCoordinate;
-        //     document.getElementById(
-        //       "pokemon1"
-        //     ).style.top = `${data.yCoordinate}px`;
-        //     document.getElementById(
-        //       "pokemon1"
-        //     ).style.left = `${data.xCoordinate}px`;
-        //   });
-        fetch(`/coordinates/${id}?x=${currentX}&y=${currentY}`);
+        fetch(`/coordinates/${id}?x=${currentX}&y=${currentY}`)
+          .then((response) => response.json())
+          .then((data) => {
+            for (const _id in data) {
+              if (id == _id) {
+                continue;
+              }
+              let newAvatar = document.getElementById("pokemon" + _id);
+              if (!newAvatar) {
+                newAvatar = document.createElement("img");
+                newAvatar.id = "pokemon" + _id;
+                newAvatar.src =
+                  "https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png";
+                document.body.appendChild(newAvatar);
+              }
+              newAvatar.style.position = "absolute";
+              newAvatar.style.left = data[_id][0] + "px";
+              newAvatar.style.top = data[_id][1] + "px";
+            }
+            // console.log(avatar.id.slice(7))
+            //   if (data[id]) {
+            //     return
+            //   } else {
+            //     if (!document.getElementById(""data[id])) {
+
+            //     }
+            //   }
+          });
       }
       setInterval(updateCoordinates, 1000);
 
-      // console.log(event.key);
-      let currentX = parseInt(window.getComputedStyle(avatar).top);
-      let currentY = parseInt(window.getComputedStyle(avatar).left);
+      let currentY = parseInt(window.getComputedStyle(avatar).top);
+      let currentX = parseInt(window.getComputedStyle(avatar).left);
       function move(event) {
         switch (event.key) {
           case "w":
-            avatar.style.top = currentX - 10 + "px";
-            currentX -= 10;
-            break;
-          case "s":
-            avatar.style.top = currentX + 10 + "px";
-            currentX += 10;
-            break;
-          case "a":
-            avatar.style.left = currentY - 10 + "px";
+            avatar.style.top = currentY - 10 + "px";
             currentY -= 10;
             break;
+          case "s":
+            avatar.style.top = currentY + 10 + "px";
+            currentY += 10;
+            break;
+          case "a":
+            avatar.style.left = currentX - 10 + "px";
+            currentX -= 10;
+            break;
           case "d":
-            avatar.style.left = currentY + 10 + "px";
-            currentY += 10
+            avatar.style.left = currentX + 10 + "px";
+            currentX += 10;
             break;
         }
-        console.log([currentX, currentY])
       }
+      // fetch("/coordinates")
+      //     document.getElementById("xCoordinate").innerText = data.xCoordinate;
+      //     document.getElementById("yCoordinate").innerText = data.yCoordinate;
+      //     document.getElementById(
+      //       "pokemon1"
+      //     ).style.top = `${data.yCoordinate}px`;
+      //     document.getElementById(
+      //       "pokemon1"
+      //     ).style.left = `${data.xCoordinate}px`;
     </script>
   </body>
 </html>
