@@ -26,42 +26,50 @@
       src="https://assets.pokemon.com/assets/cms2/img/pokedex/full//151.png"
     />
     <script>
-      // function updateCoordinates() {
-      //   fetch("/coordinates")
-      //     .then((response) => response.json())
-      //     .then((data) => {
-      //       document.getElementById("xCoordinate").innerText = data.xCoordinate;
-      //       document.getElementById("yCoordinate").innerText = data.yCoordinate;
-      //       document.getElementById(
-      //         "pokemon1"
-      //       ).style.top = `${data.yCoordinate}px`;
-      //       document.getElementById(
-      //         "pokemon1"
-      //       ).style.left = `${data.xCoordinate}px`;
-      //     });
-      // }
-      // setInterval(updateCoordinates, 1000);
-
+      const id = Math.floor(Math.random() * 100);
+      const avatar = document.getElementById("pokemon2");
       document.addEventListener("keydown", move);
+
+      function updateCoordinates() {
+        // fetch("/coordinates")
+        //   .then((response) => response.json())
+        //   .then((data) => {
+        //     document.getElementById("xCoordinate").innerText = data.xCoordinate;
+        //     document.getElementById("yCoordinate").innerText = data.yCoordinate;
+        //     document.getElementById(
+        //       "pokemon1"
+        //     ).style.top = `${data.yCoordinate}px`;
+        //     document.getElementById(
+        //       "pokemon1"
+        //     ).style.left = `${data.xCoordinate}px`;
+        //   });
+        fetch(`/coordinates/${id}?x=${currentX}&y=${currentY}`);
+      }
+      setInterval(updateCoordinates, 1000);
+
+      // console.log(event.key);
+      let currentX = parseInt(window.getComputedStyle(avatar).top);
+      let currentY = parseInt(window.getComputedStyle(avatar).left);
       function move(event) {
-        const avatar = document.getElementById("pokemon2");
-        console.log(event.key);
-        let currentX = parseInt(window.getComputedStyle(avatar).top);
-        let currentY = parseInt(window.getComputedStyle(avatar).left);
         switch (event.key) {
           case "w":
             avatar.style.top = currentX - 10 + "px";
+            currentX -= 10;
             break;
           case "s":
             avatar.style.top = currentX + 10 + "px";
+            currentX += 10;
             break;
           case "a":
             avatar.style.left = currentY - 10 + "px";
+            currentY -= 10;
             break;
           case "d":
             avatar.style.left = currentY + 10 + "px";
+            currentY += 10
             break;
         }
+        console.log([currentX, currentY])
       }
     </script>
   </body>
