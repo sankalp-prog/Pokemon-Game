@@ -5,28 +5,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokemon</title>
     <style>
-      #pokemon {
+      #pokemon1 {
+        position: absolute;
+      }
+      #pokemon2 {
         position: absolute;
       }
     </style>
   </head>
   <body>
-    <h1>Random Coordinates</h1>
+    <!-- <h1>Random Coordinates</h1>
     <p>X: <span id="xCoordinate"></span></p>
-    <p>Y: <span id="yCoordinate"></span></p>
-    <img id="pokemon" src="https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png">
+    <p>Y: <span id="yCoordinate"></span></p> -->
+    <!-- <img
+      id="pokemon1"
+      src="https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png"
+    /> -->
+    <img
+      id="pokemon2"
+      src="https://assets.pokemon.com/assets/cms2/img/pokedex/full//151.png"
+    />
     <script>
-      function updateCoordinates() {
-        fetch("/coordinates")
-          .then((response) => response.json())
-          .then((data) => {
-            document.getElementById("xCoordinate").innerText = data.xCoordinate
-            document.getElementById("yCoordinate").innerText = data.yCoordinate
-            document.getElementById("pokemon").style.top = `${data.yCoordinate}px`
-            document.getElementById("pokemon").style.left = `${data.xCoordinate}px`
-          });
+      // function updateCoordinates() {
+      //   fetch("/coordinates")
+      //     .then((response) => response.json())
+      //     .then((data) => {
+      //       document.getElementById("xCoordinate").innerText = data.xCoordinate;
+      //       document.getElementById("yCoordinate").innerText = data.yCoordinate;
+      //       document.getElementById(
+      //         "pokemon1"
+      //       ).style.top = `${data.yCoordinate}px`;
+      //       document.getElementById(
+      //         "pokemon1"
+      //       ).style.left = `${data.xCoordinate}px`;
+      //     });
+      // }
+      // setInterval(updateCoordinates, 1000);
+
+      document.addEventListener("keydown", move);
+      function move(event) {
+        const avatar = document.getElementById("pokemon2");
+        console.log(event.key);
+        let currentX = parseInt(window.getComputedStyle(avatar).top);
+        let currentY = parseInt(window.getComputedStyle(avatar).left);
+        switch (event.key) {
+          case "w":
+            avatar.style.top = currentX - 10 + "px";
+            break;
+          case "s":
+            avatar.style.top = currentX + 10 + "px";
+            break;
+          case "a":
+            avatar.style.left = currentY - 10 + "px";
+            break;
+          case "d":
+            avatar.style.left = currentY + 10 + "px";
+            break;
+        }
       }
-      setInterval(updateCoordinates, 1000);
     </script>
   </body>
 </html>
