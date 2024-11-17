@@ -5,11 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Pokemon</title>
     <style>
-      #pokemon1 {
+      .pokemon1 {
         position: absolute;
+        height: 150px;
+        width: 150px;
       }
       #pokemon2 {
         position: absolute;
+        height: 150px;
+        width: 150px;
       }
     </style>
   </head>
@@ -19,14 +23,14 @@
     <p>Y: <span id="yCoordinate"></span></p> -->
     <!-- <img
       id="pokemon1"
-      src="https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png"
-    /> -->
-    <img
-      id="pokemon2"
       src="https://assets.pokemon.com/assets/cms2/img/pokedex/full//151.png"
-    />
+    /> -->
+      <img
+        id="pokemon2"
+        src="https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png"
+      />
     <script>
-      let id
+      let id;
       if (localStorage.userId) {
         id = localStorage.userId;
       } else {
@@ -49,7 +53,8 @@
                 newAvatar = document.createElement("img");
                 newAvatar.id = "pokemon" + _id;
                 newAvatar.src =
-                  "https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png";
+                  "https://assets.pokemon.com/assets/cms2/img/pokedex/full//151.png";
+                newAvatar.classList.add("pokemon1")
                 document.body.appendChild(newAvatar);
               }
               newAvatar.style.position = "absolute";
@@ -73,20 +78,20 @@
       function move(event) {
         switch (event.key) {
           case "w":
-            avatar.style.top = currentY - 10 + "px";
-            currentY -= 10;
+            avatar.style.top = currentY - 150 + "px";
+            currentY -= 150;
             break;
           case "s":
-            avatar.style.top = currentY + 10 + "px";
-            currentY += 10;
+            avatar.style.top = currentY + 150 + "px";
+            currentY += 150;
             break;
           case "a":
-            avatar.style.left = currentX - 10 + "px";
-            currentX -= 10;
+            avatar.style.left = currentX - 150 + "px";
+            currentX -= 150;
             break;
           case "d":
-            avatar.style.left = currentX + 10 + "px";
-            currentX += 10;
+            avatar.style.left = currentX + 150 + "px";
+            currentX += 150;
             break;
         }
       }
