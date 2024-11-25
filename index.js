@@ -5,9 +5,30 @@ const app = express();
 const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.static("public"));
 
 app.get("/", (req, res) => {
   res.render("index.ejs");
+});
+
+app.get("/elements", (req, res) => {
+  const elements = [
+    {
+      type: "trees",
+      coordinates: [
+        { x: 1, y: 1 },
+        { x: 2, y: 1 },
+      ],
+    },
+    {
+      type: "bushes",
+      coordinates: [
+        { x: 2, y: 1 },
+        { x: 2, y: 2 },
+      ],
+    },
+  ];
+  res.json(elements);
 });
 
 const dict = {};
@@ -25,7 +46,7 @@ app.get("/coordinates/:id", (req, res) => {
 
   dict[req.params.id] = [req.query.x, req.query.y];
 
-  console.log(dict);
+  // console.log(dict);
 
   res.send(dict);
 });

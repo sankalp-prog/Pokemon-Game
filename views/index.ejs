@@ -6,9 +6,9 @@
     <title>Pokemon</title>
     <style>
       body {
-        background-image: url("https://i.imgur.com/fmsNNrp.png");
         height: 1000px;
         width: 600px;
+        /* background-color: green; */
       }
 
       .pokemon1 {
@@ -18,8 +18,18 @@
       }
       #pokemon2 {
         position: absolute;
+        z-index: 1;
         height: 150px;
         width: 150px;
+      }
+
+      .water {
+        position: absolute;
+        height: 150px;
+        width: 150px;
+        background-image: url('/images/tree.png');
+        background-repeat: repeat-y;
+        /* background-position: right top; */
       }
     </style>
   </head>
@@ -35,7 +45,9 @@
         id="pokemon2"
         src="https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png"
       />
+      <div class="water"></div>
     <script>
+      // const elements = [{type: ''}]
       let id;
       if (localStorage.userId) {
         id = localStorage.userId;
