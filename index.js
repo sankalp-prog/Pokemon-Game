@@ -15,6 +15,7 @@ app.get("/elements", (req, res) => {
   const elements = [
     {
       type: "trees",
+      path: "/images/tree.png",
       coordinates: [
         { x: 1, y: 1 },
         { x: 2, y: 1 },
@@ -22,9 +23,10 @@ app.get("/elements", (req, res) => {
     },
     {
       type: "bushes",
+      path: "images/bushes.png",
       coordinates: [
-        { x: 2, y: 1 },
-        { x: 2, y: 2 },
+        { x: 3, y: 1 },
+        { x: 5, y: 2 },
       ],
     },
   ];

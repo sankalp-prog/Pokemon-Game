@@ -23,13 +23,19 @@
         width: 150px;
       }
 
-      .water {
+      .trees {
         position: absolute;
         height: 150px;
         width: 150px;
-        background-image: url('/images/tree.png');
-        background-repeat: repeat-y;
-        /* background-position: right top; */
+        background-image: url("/images/tree.png");
+        background-size: auto;
+      }
+
+      .bushes {
+        position: absolute;
+        height: 150px;
+        width: 150px;
+        background-image: url("/images/bushes.png");
       }
     </style>
   </head>
@@ -45,7 +51,6 @@
         id="pokemon2"
         src="https://images.secretlab.co/theme/common/collab_pokemon_catalog_charizard-min.png"
       />
-      <div class="water"></div>
     <script>
       // const elements = [{type: ''}]
       let id;
@@ -58,38 +63,46 @@
       const avatar = document.getElementById("pokemon2");
       document.addEventListener("keydown", move);
 
-      function updateCoordinates() {
-        fetch(`/coordinates/${id}?x=${currentX}&y=${currentY}`)
-          .then((response) => response.json())
-          .then((data) => {
-            for (const _id in data) {
-              if (id == _id) {
-                continue;
-              }
-              let newAvatar = document.getElementById("pokemon" + _id);
-              if (!newAvatar) {
-                newAvatar = document.createElement("img");
-                newAvatar.id = "pokemon" + _id;
-                newAvatar.src =
-                  "https://assets.pokemon.com/assets/cms2/img/pokedex/full//151.png";
-                newAvatar.classList.add("pokemon1")
-                document.body.appendChild(newAvatar);
-              }
-              newAvatar.style.position = "absolute";
-              newAvatar.style.left = data[_id][0] + "px";
-              newAvatar.style.top = data[_id][1] + "px";
-            }
-            // console.log(avatar.id.slice(7))
-            //   if (data[id]) {
-            //     return
-            //   } else {
-            //     if (!document.getElementById(""data[id])) {
-
-            //     }
-            //   }
-          });
+      async function updateCoordinates() {
+        const response = await fetch(
+          `/coordinates/${id}?x=${currentX}&y=${currentY}`
+        );
+        const data = await response.json();
+        for (const _id in data) {
+          if (id == _id) {
+            continue;
+          }
+          let newAvatar = document.getElementById("pokemon" + _id);
+          if (!newAvatar) {
+            newAvatar = document.createElement("img");
+            newAvatar.id = "pokemon" + _id;
+            newAvatar.src =
+              "https://assets.pokemon.com/assets/cms2/img/pokedex/full//151.png";
+            newAvatar.classList.add("pokemon1");
+            document.body.appendChild(newAvatar);
+          }
+          newAvatar.style.position = "absolute";
+          newAvatar.style.left = data[_id][0] + "px";
+          newAvatar.style.top = data[_id][1] + "px";
+        }
       }
       setInterval(updateCoordinates, 1000);
+
+      async function fetchElements() {
+        const response = await fetch("/elements");
+        const elements = await response.json();
+        elements.forEach((element) => {
+          element.coordinates.forEach((coordinate) => {
+            const elementDiv = document.createElement("div");
+            elementDiv.className = `${element.type}`;
+            elementDiv.style.left = `${coordinate.x * 150}px`;
+            elementDiv.style.top = `${coordinate.y * 150}px`;
+            document.body.appendChild(elementDiv);
+          });
+        });
+      }
+
+      fetchElements();
 
       let currentY = parseInt(window.getComputedStyle(avatar).top);
       let currentX = parseInt(window.getComputedStyle(avatar).left);
